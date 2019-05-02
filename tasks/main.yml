@@ -8,6 +8,10 @@
   become: no
   run_once: true
 
+# - name: Generate public key
+#  openssh_keypair:
+    # needs ansible 2.8
+
 - name: Generate public key
   command:
     ssh-keygen -t rsa -f {{ r_tempfile.path | quote }}/id_rsa  -C "" -N ""
@@ -17,7 +21,7 @@
 
 - name: Read public key 
   set_fact: 
-    temp_public_key: "{{ lookup('file', r_tempfile.path + '/id_rsa.pub') }} "
+    hc_temp_public_key: "{{ lookup('file', r_tempfile.path + '/id_rsa.pub') }} "
   delegate_to: localhost
   run_once: true
 
@@ -38,6 +42,7 @@
 
 - debug:
     var: r_sign.json
+    verbosity: 1
 
 - name: Store key temporarily
   copy:  
@@ -56,5 +61,5 @@
     ansible_ssh_extra_args: "-i {{ r_tempfile.path }}/signed"
 
 - set_fact:
-    ansible_user: ansible
+    ansible_user: {{ hc_ansible_user }}
 

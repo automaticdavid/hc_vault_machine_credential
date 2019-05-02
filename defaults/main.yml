@@ -1,2 +1,5 @@
 ---
 # defaults file for hc_vault_machine_credential
+hc_vault_server: "{{ hc_vault_server }}"
+hc_vault_token: "{{ hc_vault_token }}"
+hc_ansible_user: "{{ hc_ansible_user }}"
